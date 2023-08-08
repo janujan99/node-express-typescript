@@ -11,13 +11,13 @@ interface Board {
   name: string;
   id: number;
   nextColumnId: number;
-  columns: (Column|null)[];
+  columns: (Column|null) [];
 }
 interface Column {
   name: string;
   id: number;
   nextTaskId: number;
-  tasks: Task[];
+  tasks: (Task|null) [];
 }
 interface Task {
   title: string;
@@ -108,9 +108,38 @@ app.post('/addTask', (req: Request, res: Response) => {
   boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId += 1;
 
   console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]);
-  res.status(200).send({id: "ok"});
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]);
 });
 
+app.post('/editTaskTitle', (req: Request, res: Response) => {
+  console.log("Editing task title!");
+
+  let s: Task = getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]);
+  s.title = req.body.newTaskTitle;
+
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId] = s;
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+});
+
+app.post('/editTaskDescription', (req: Request, res: Response) => {
+  console.log("Editing task description!");
+
+  let s: Task = getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]);
+  s.description = req.body.newTaskDescription;
+
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId] = s;
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+});
+
+app.post('/deleteTask', (req: Request, res: Response) => {
+  console.log("Deleting task!");
+
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId] = null;
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
+});
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
