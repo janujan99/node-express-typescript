@@ -16,7 +16,14 @@ interface Board {
 interface Column {
   name: string;
   id: number;
-  tasks: string[];
+  nextTaskId: number;
+  tasks: Task[];
+}
+interface Task {
+  title: string;
+  id: number;
+  description: string;
+  subTasks: string[];
 }
 dotenv.config();
 
@@ -71,7 +78,7 @@ app.post('/deleteBoard', (req: Request, res: Response) => {
 //Columns
 app.post('/addColumn', (req: Request, res: Response) => {
   console.log("Adding Column!");
-  let s: Column = {name: req.body.name, id: boardNames[req.body.boardId]!.nextColumnId, tasks: []};
+  let s: Column = {name: req.body.name, id: boardNames[req.body.boardId]!.nextColumnId, nextTaskId: 0, tasks: []};
   boardNames[req.body.boardId]!.columns.push(s);
   boardNames[req.body.boardId]!.nextColumnId += 1;
   console.log(boardNames[req.body.boardId]);
@@ -80,7 +87,7 @@ app.post('/addColumn', (req: Request, res: Response) => {
 
 app.post('/editColumn', (req: Request, res: Response) => {
   console.log("Editing Column!");
-  let s: Column = {name: req.body.newColumnName, id: req.body.id, tasks: getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks)};
+  let s: Column = {name: req.body.newColumnName, id: req.body.id, nextTaskId: boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId, tasks: getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks)};
   boardNames[req.body.boardId]!.columns[req.body.columnId] = getDeepCopy(s);
   console.log(boardNames[req.body.boardId]);
   res.status(200).send({id: "ok"});
@@ -90,6 +97,17 @@ app.post('/deleteColumn', (req: Request, res: Response) => {
   console.log("Deleting Column!");
   boardNames[req.body.boardId]!.columns[req.body.columnId] = null;
   console.log(boardNames[req.body.boardId]);
+  res.status(200).send({id: "ok"});
+});
+
+//Tasks
+app.post('/addTask', (req: Request, res: Response) => {
+  console.log("Adding Task!");
+  let s: Task = {title: req.body.name, id: boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId, description: req.body.description, subTasks: []};
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks.push(s);
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId += 1;
+
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]);
   res.status(200).send({id: "ok"});
 });
 
