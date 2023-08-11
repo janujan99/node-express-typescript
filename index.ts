@@ -22,8 +22,14 @@ interface Column {
 interface Task {
   title: string;
   id: number;
+  nextSubTaskId: number;
   description: string;
-  subTasks: string[];
+  subTasks: (SubTask|null)[];
+}
+interface SubTask {
+  title: string;
+  id: number;
+  isCompleted: boolean;
 }
 dotenv.config();
 
@@ -103,7 +109,7 @@ app.post('/deleteColumn', (req: Request, res: Response) => {
 //Tasks
 app.post('/addTask', (req: Request, res: Response) => {
   console.log("Adding Task!");
-  let s: Task = {title: req.body.name, id: boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId, description: req.body.description, subTasks: []};
+  let s: Task = {title: req.body.name, id: boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId, nextSubTaskId: 0, description: req.body.description, subTasks: []};
   boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks.push(s);
   boardNames[req.body.boardId]!.columns[req.body.columnId]!.nextTaskId += 1;
 
@@ -140,6 +146,40 @@ app.post('/deleteTask', (req: Request, res: Response) => {
   console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
   res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
 });
+//Subtasks
+
+app.post('/addSubTask', (req: Request, res: Response) => {
+  console.log("Adding Subtask!");
+  let s: SubTask = {title: req.body.name, id: boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.nextSubTaskId, isCompleted: req.body.isCompleted};
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]?.subTasks.push(s);
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.nextSubTaskId += 1;
+
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]);
+});
+
+app.post('/editSubTaskTitle', (req: Request, res: Response) => {
+  console.log("Editing Subtask title!");
+
+  let s: SubTask = getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.subTasks[req.body.subTaskId]);
+  s.title = req.body.newSubTaskTitle;
+
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.subTasks[req.body.subTaskId] = s;
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+});
+
+app.post('/toggleSubTaskCompletion', (req: Request, res: Response) => {
+  console.log("Editing Subtask title!");
+
+  let s: SubTask = getDeepCopy(boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.subTasks[req.body.subTaskId]);
+  s.isCompleted = !s.isCompleted;
+
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId]!.subTasks[req.body.subTaskId] = s;
+  console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+  res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks[req.body.taskId]);
+});
+
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });
