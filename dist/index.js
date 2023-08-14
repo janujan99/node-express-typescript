@@ -73,19 +73,64 @@ app.post('/deleteColumn', (req, res) => {
 //Tasks
 app.post('/addTask', (req, res) => {
     console.log("Adding Task!");
-    let s = { title: req.body.name, id: boardNames[req.body.boardId].columns[req.body.columnId].nextTaskId, description: req.body.description, subTasks: [] };
+    let s = { title: req.body.name, id: boardNames[req.body.boardId].columns[req.body.columnId].nextTaskId, nextSubTaskId: 0, description: req.body.description, subTasks: [] };
     boardNames[req.body.boardId].columns[req.body.columnId].tasks.push(s);
     boardNames[req.body.boardId].columns[req.body.columnId].nextTaskId += 1;
     console.log(boardNames[req.body.boardId].columns[req.body.columnId]);
     res.status(200).send(boardNames[req.body.boardId].columns[req.body.columnId]);
 });
 app.post('/editTaskTitle', (req, res) => {
+    var _a;
     console.log("Editing task title!");
     let s = getDeepCopy(boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId]);
     s.title = req.body.newTaskTitle;
     boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId] = s;
     console.log(boardNames[req.body.boardId].columns[req.body.columnId]);
+    res.status(200).send((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks[req.body.taskId]);
+});
+app.post('/editTaskDescription', (req, res) => {
+    var _a;
+    console.log("Editing task description!");
+    let s = getDeepCopy(boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId]);
+    s.description = req.body.newTaskDescription;
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId] = s;
+    console.log(boardNames[req.body.boardId].columns[req.body.columnId]);
+    res.status(200).send((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks[req.body.taskId]);
+});
+app.post('/deleteTask', (req, res) => {
+    var _a, _b;
+    console.log("Deleting task!");
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId] = null;
+    console.log((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks);
+    res.status(200).send((_b = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _b === void 0 ? void 0 : _b.tasks);
+});
+//Subtasks
+app.post('/addSubTask', (req, res) => {
+    var _a;
+    console.log("Adding Subtask!");
+    let s = { title: req.body.name, id: boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].nextSubTaskId, isCompleted: req.body.isCompleted };
+    (_a = boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId]) === null || _a === void 0 ? void 0 : _a.subTasks.push(s);
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].nextSubTaskId += 1;
+    console.log(boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId]);
     res.status(200).send(boardNames[req.body.boardId].columns[req.body.columnId]);
+});
+app.post('/editSubTaskTitle', (req, res) => {
+    var _a, _b;
+    console.log("Editing Subtask title!");
+    let s = getDeepCopy(boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].subTasks[req.body.subTaskId]);
+    s.title = req.body.newSubTaskTitle;
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].subTasks[req.body.subTaskId] = s;
+    console.log((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks[req.body.taskId]);
+    res.status(200).send((_b = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _b === void 0 ? void 0 : _b.tasks[req.body.taskId]);
+});
+app.post('/toggleSubTaskCompletion', (req, res) => {
+    var _a, _b;
+    console.log("Editing Subtask title!");
+    let s = getDeepCopy(boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].subTasks[req.body.subTaskId]);
+    s.isCompleted = !s.isCompleted;
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId].subTasks[req.body.subTaskId] = s;
+    console.log((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks[req.body.taskId]);
+    res.status(200).send((_b = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _b === void 0 ? void 0 : _b.tasks[req.body.taskId]);
 });
 app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
