@@ -66,7 +66,7 @@ app.post('/editColumn', (req, res) => {
 });
 app.post('/deleteColumn', (req, res) => {
     console.log("Deleting Column!");
-    boardNames[req.body.boardId].columns[req.body.columnId] = null;
+    boardNames[req.body.boardId].columns[req.body.deletionIndex] = null;
     console.log(boardNames[req.body.boardId]);
     res.status(200).send({ id: "ok" });
 });
@@ -100,7 +100,7 @@ app.post('/editTaskDescription', (req, res) => {
 app.post('/deleteTask', (req, res) => {
     var _a, _b;
     console.log("Deleting task!");
-    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.taskId] = null;
+    boardNames[req.body.boardId].columns[req.body.columnId].tasks[req.body.deletionIndex] = null;
     console.log((_a = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _a === void 0 ? void 0 : _a.tasks);
     res.status(200).send((_b = boardNames[req.body.boardId].columns[req.body.columnId]) === null || _b === void 0 ? void 0 : _b.tasks);
 });

@@ -37,8 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = require("axios");
+//Endpoints
 var addBoardEndpoint = 'http://localhost:8000/addBoard';
 var getBoardEndpoint = 'http://localhost:8000/getBoard';
+var editBoardEndpoint = 'http://localhost:8000/editBoard';
+var deleteBoardEndpoint = 'http://localhost:8000/deleteBoard';
+var addColumnEndpoint = 'http://localhost:8000/addColumn';
+var editColumnEndpoint = 'http://localhost:8000/editColumn';
+var deleteColumnEndpoint = 'http://localhost:8000/deleteColumn';
+var addTaskEndpoint = 'http://localhost:8000/addTask';
+//Board endpoint callers
 function callAddBoardEndpoint(boardRequest) {
     return __awaiter(this, void 0, void 0, function () {
         var response, error_1;
@@ -50,7 +58,7 @@ function callAddBoardEndpoint(boardRequest) {
                 case 1:
                     response = _a.sent();
                     // Handle the response data
-                    console.log('Add Response:', response.data);
+                    console.log('Add Board Response:', response.data);
                     return [3 /*break*/, 3];
                 case 2:
                     error_1 = _a.sent();
@@ -73,7 +81,7 @@ function callGetBoardEndpoint(boardRequest) {
                 case 1:
                     response = _a.sent();
                     // Handle the response data
-                    console.log('Get Response:', response.data);
+                    console.log('Get Board Response:', response.data);
                     return [3 /*break*/, 3];
                 case 2:
                     error_2 = _a.sent();
@@ -85,6 +93,148 @@ function callGetBoardEndpoint(boardRequest) {
         });
     });
 }
-var b = { name: "suck it" };
+function callEditBoardEndpoint(boardRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(editBoardEndpoint, boardRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Edit Board Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_3.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function callDeleteBoardEndpoint(boardRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_4;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(deleteBoardEndpoint, boardRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Delete Board Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_4 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_4.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+//Column Endpoint Callers
+function callAddColumnEndpoint(columnRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_5;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(addColumnEndpoint, columnRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Add Column Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_5 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_5.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function callEditColumnEndpoint(columnRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_6;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(editColumnEndpoint, columnRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Edit Column Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_6 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_6.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function callDeleteColumnEndpoint(columnRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_7;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(deleteColumnEndpoint, columnRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Delete Column Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_7 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_7.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+//Task Endpoint Callers
+function callAddTaskEndpoint(taskRequest) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, error_8;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(addTaskEndpoint, taskRequest)];
+                case 1:
+                    response = _a.sent();
+                    // Handle the response data
+                    console.log('Add Task Response:', response.data);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_8 = _a.sent();
+                    // Handle errors
+                    console.error('Error:', error_8.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+var b = { name: "be yourself" };
 callAddBoardEndpoint(b);
-callGetBoardEndpoint({ boardId: 0 });
+callAddColumnEndpoint({ name: "be goofy", boardId: 0 });
+callAddColumnEndpoint({ name: "be kind", boardId: 0 });
+callAddTaskEndpoint({ boardId: 0, columnId: 1, name: "apologize", description: "Take ownership" });

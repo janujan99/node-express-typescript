@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 // get deep copy of anythig
 function getDeepCopy(arg: any){
-  return JSON.parse(JSON.stringify(arg))
+  return JSON.parse(JSON.stringify(arg));
 }
 
 //Random interfaces that I'll have to move to a different file
@@ -101,7 +101,7 @@ app.post('/editColumn', (req: Request, res: Response) => {
 
 app.post('/deleteColumn', (req: Request, res: Response) => {
   console.log("Deleting Column!");
-  boardNames[req.body.boardId]!.columns[req.body.columnId] = null;
+  boardNames[req.body.boardId]!.columns[req.body.deletionIndex] = null;
   console.log(boardNames[req.body.boardId]);
   res.status(200).send({id: "ok"});
 });
@@ -142,7 +142,7 @@ app.post('/editTaskDescription', (req: Request, res: Response) => {
 app.post('/deleteTask', (req: Request, res: Response) => {
   console.log("Deleting task!");
 
-  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.taskId] = null;
+  boardNames[req.body.boardId]!.columns[req.body.columnId]!.tasks[req.body.deletionIndex] = null;
   console.log(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
   res.status(200).send(boardNames[req.body.boardId]!.columns[req.body.columnId]?.tasks);
 });
