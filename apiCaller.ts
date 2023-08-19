@@ -53,6 +53,27 @@ interface DeleteTaskRequest{
     columnId: number;
     deletionIndex: number;
 }
+//Subtask requests
+interface AddSubTaskRequest{
+    boardId: number;
+    columnId: number;
+    taskId: number;
+    name: string;
+    description: string;
+}
+interface EditSubTaskTitleRequest{
+    boardId: number;
+    columnId: number;
+    taskId: number;
+    subTaskId: number;
+    newSubTaskTitle: string;
+}
+interface ToggleSubTaskCompletionRequest{
+    boardId: number;
+    columnId: number;
+    taskId: number;
+    subTaskId: number;
+}
 //Endpoints
 const addBoardEndpoint = 'http://localhost:8000/addBoard';
 const getBoardEndpoint = 'http://localhost:8000/getBoard';
@@ -65,6 +86,9 @@ const addTaskEndpoint = 'http://localhost:8000/addTask';
 const editTaskTitleEndpoint = 'http://localhost:8000/editTaskTitle';
 const editTaskDescriptionEndpoint = 'http://localhost:8000/editDescriptionTitle';
 const deleteTaskEndpoint = 'http://localhost:8000/deleteTask';
+const addSubTaskEndpoint = 'http://localhost:8000/addSubTask';
+const editSubTaskTitleEndpoint = 'http://localhost:8000/editSubTaskTitle';
+const toggleSubTaskCompletionEndpoint = 'http://localhost:8000/toggleSubTaskCompletion';
 //Board endpoint callers
 async function callAddBoardEndpoint(boardRequest: AddBoardRequest){
     try {
@@ -184,7 +208,7 @@ async function callEditTaskDescriptionEndpoint(taskRequest: EditTaskDescriptionR
         const response = await axios.post(editTaskDescriptionEndpoint, taskRequest);
     
         // Handle the response data
-        console.log('Edit Task Title Response:', response.data);
+        console.log('Edit Task Description Response:', response.data);
       } catch (error: any) {
         // Handle errors
         console.error('Error:', error.message);
@@ -196,7 +220,44 @@ async function callDeleteTaskEndpoint(taskRequest: DeleteTaskRequest){
         const response = await axios.post(deleteTaskEndpoint, taskRequest);
     
         // Handle the response data
-        console.log('Add Task Response:', response.data);
+        console.log('Delete Task Response:', response.data);
+      } catch (error: any) {
+        // Handle errors
+        console.error('Error:', error.message);
+      }
+}
+//SubTask Endpoint Callers
+async function callAddSubTaskEndpoint(subTaskRequest: AddSubTaskRequest){
+    try {
+        // Make a POST request to the endpoint
+        const response = await axios.post(addSubTaskEndpoint, subTaskRequest);
+    
+        // Handle the response data
+        console.log('Add Sub Task Response:', response.data);
+      } catch (error: any) {
+        // Handle errors
+        console.error('Error:', error.message);
+      }
+}
+async function callEditSubTaskTitleEndpoint(subTaskRequest: EditSubTaskTitleRequest){
+    try {
+        // Make a POST request to the endpoint
+        const response = await axios.post(editSubTaskTitleEndpoint, subTaskRequest);
+    
+        // Handle the response data
+        console.log('Edit Task Description Response:', response.data);
+      } catch (error: any) {
+        // Handle errors
+        console.error('Error:', error.message);
+      }
+}
+async function callToggleSubTaskCompletionEndpoint(subTaskRequest: ToggleSubTaskCompletionRequest){
+    try {
+        // Make a POST request to the endpoint
+        const response = await axios.post(toggleSubTaskCompletionEndpoint, subTaskRequest);
+    
+        // Handle the response data
+        console.log('Edit Task Description Response:', response.data);
       } catch (error: any) {
         // Handle errors
         console.error('Error:', error.message);
